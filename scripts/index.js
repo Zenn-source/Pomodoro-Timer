@@ -4,6 +4,7 @@ let timerInterval = null;
 
 const timerDisplay = document.getElementById("timer");
 const alarmSound = document.getElementById("alarm-sound");
+const bgMusic = document.getElementById("bg-music");
 
 const focusBtn = document.getElementById("focusBtn");
 const shortBtn = document.getElementById("shortBtn");
@@ -11,12 +12,12 @@ const longBtn = document.getElementById("longBtn");
 const startBtn = document.getElementById("startBtn");
 const pauseBtn = document.getElementById("pauseBtn");
 const resetBtn = document.getElementById("resetBtn");
-const themeBtn = document.getElementById("themeBtn");
+// const themeBtn = document.getElementById("themeBtn");
 
 function setMode(mode) {
   pauseTimer();
   if (mode === "focus") timerDuration = 25 * 60;
-  if (mode === "short") timerDuration = 1 * 5;
+  if (mode === "short") timerDuration = 5 * 60;
   if (mode === "long") timerDuration = 15 * 60;
   timeRemaining = timerDuration;
   updateDisplay();
@@ -24,6 +25,11 @@ function setMode(mode) {
 
 function startTimer() {
   if (timerInterval) return;
+
+  bgMusic
+    .play()
+    .catch((e) => console.log("Autoplay blocked until user interacts"));
+
   timerInterval = setInterval(() => {
     if (timeRemaining > 0) {
       timeRemaining--;
@@ -32,6 +38,8 @@ function startTimer() {
       clearInterval(timerInterval);
       timerInterval = null;
       alarmSound.play();
+      bgMusic.pause();
+      bgMusic.currentTime = 0;
     }
   }, 1000);
 }
@@ -39,12 +47,14 @@ function startTimer() {
 function pauseTimer() {
   clearInterval(timerInterval);
   timerInterval = null;
+  bgMusic.pause();
 }
 
 function resetTimer() {
   pauseTimer();
   timeRemaining = timerDuration;
   updateDisplay();
+  bgMusic.currentTime = 0;
 }
 
 function updateDisplay() {
@@ -66,7 +76,7 @@ longBtn.addEventListener("click", () => setMode("long"));
 startBtn.addEventListener("click", startTimer);
 pauseBtn.addEventListener("click", pauseTimer);
 resetBtn.addEventListener("click", resetTimer);
-themeBtn.addEventListener("click", toggleTheme);
+// themeBtn.addEventListener("click", toggleTheme);
 
 // Initialize display
 updateDisplay();
