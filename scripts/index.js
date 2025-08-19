@@ -5,15 +5,19 @@ let timerInterval = null;
 const timerDisplay = document.getElementById("timer");
 const alarmSound = document.getElementById("alarm-sound");
 
+const focusBtn = document.getElementById("focusBtn");
+const shortBtn = document.getElementById("shortBtn");
+const longBtn = document.getElementById("longBtn");
+const startBtn = document.getElementById("startBtn");
+const pauseBtn = document.getElementById("pauseBtn");
+const resetBtn = document.getElementById("resetBtn");
+const themeBtn = document.getElementById("themeBtn");
+
 function setMode(mode) {
   pauseTimer();
-  if (mode === "focus") {
-    timerDuration = 25 * 60;
-  } else if (mode === "short") {
-    timerDuration = 5 * 60;
-  } else if (mode === "long") {
-    timerDuration = 15 * 60;
-  }
+  if (mode === "focus") timerDuration = 25 * 60;
+  if (mode === "short") timerDuration = 1 * 5;
+  if (mode === "long") timerDuration = 15 * 60;
   timeRemaining = timerDuration;
   updateDisplay();
 }
@@ -52,7 +56,17 @@ function updateDisplay() {
 }
 
 function toggleTheme() {
+  document.body.classList.toggle("dark-mode");
   document.body.classList.toggle("light-mode");
 }
 
+focusBtn.addEventListener("click", () => setMode("focus"));
+shortBtn.addEventListener("click", () => setMode("short"));
+longBtn.addEventListener("click", () => setMode("long"));
+startBtn.addEventListener("click", startTimer);
+pauseBtn.addEventListener("click", pauseTimer);
+resetBtn.addEventListener("click", resetTimer);
+themeBtn.addEventListener("click", toggleTheme);
+
+// Initialize display
 updateDisplay();
