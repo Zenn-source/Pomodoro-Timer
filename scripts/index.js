@@ -1,0 +1,58 @@
+let timerDuration = 25 * 60;
+let timeRemaining = timerDuration;
+let timerInterval = null;
+
+const timerDisplay = document.getElementById("timer");
+const alarmSound = document.getElementById("alarm-sound");
+
+function setMode(mode) {
+  pauseTimer();
+  if (mode === "focus") {
+    timerDuration = 25 * 60;
+  } else if (mode === "short") {
+    timerDuration = 5 * 60;
+  } else if (mode === "long") {
+    timerDuration = 15 * 60;
+  }
+  timeRemaining = timerDuration;
+  updateDisplay();
+}
+
+function startTimer() {
+  if (timerInterval) return;
+  timerInterval = setInterval(() => {
+    if (timeRemaining > 0) {
+      timeRemaining--;
+      updateDisplay();
+    } else {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      alarmSound.play();
+    }
+  }, 1000);
+}
+
+function pauseTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+}
+
+function resetTimer() {
+  pauseTimer();
+  timeRemaining = timerDuration;
+  updateDisplay();
+}
+
+function updateDisplay() {
+  const minutes = Math.floor(timeRemaining / 60);
+  const seconds = timeRemaining % 60;
+  timerDisplay.textContent = `${minutes.toString().padStart(2, "0")}:${seconds
+    .toString()
+    .padStart(2, "0")}`;
+}
+
+function toggleTheme() {
+  document.body.classList.toggle("light-mode");
+}
+
+updateDisplay();
