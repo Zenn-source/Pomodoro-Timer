@@ -17,7 +17,7 @@ const resetBtn = document.getElementById("resetBtn");
 function setMode(mode) {
   pauseTimer();
   if (mode === "focus") timerDuration = 25 * 60;
-  if (mode === "short") timerDuration = 1 * 10;
+  if (mode === "short") timerDuration = 5 * 60;
   if (mode === "long") timerDuration = 15 * 60;
   timeRemaining = timerDuration;
   updateDisplay();
